@@ -1,0 +1,9 @@
+{
+  "name": "mean-machine-code",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "^4.11.1",
+    "mongoose": "^3.8.21",
+    "passport": "^0.2.1"
+  }
+}

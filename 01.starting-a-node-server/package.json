@@ -1,0 +1,15 @@
+{
+  "name": "01.starting-a-node-server",
+  "version": "1.0.0",
+  "description": "sample app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Justin Page",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^3.8.21"
+  }
+}
