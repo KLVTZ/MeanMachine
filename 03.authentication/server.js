@@ -43,7 +43,40 @@ app.get('/', function(req, res) {
 // get an instance of the express router
 var apiRouter = express.Router();
 
-// route for authenticating users -> TBA
+// route for authenticating users
+apiRouter.post('/authenticate', function(req, res) {
+	User.findOne({
+		username: req.body.username
+	}).select('name username password').exec(function(err, user) {
+		if (err) res.send(err);
+
+		if (!user) {
+			res.json({success: false, message: 'Authentication failed. User not found.'});
+		} else if (user) {
+			// check if password matches
+			if(!user.comparePassword(req.body.password)) {
+				res.json({success: false, message: 'Authentication failed. Wrong Password'});
+			} else {
+
+				// if user is found and password is right
+				// create a token
+				var token = jwt.sign({
+					name: user.name,
+					username: user.username
+				}, superSecret, {
+					expiresInMinutes: 1440 //expires in 24 hours
+				});
+
+				// return the information including token as JSON
+				res.json({
+					success: true,
+					message: "Enjoy your token!",
+					token: token
+				});
+			}
+		}
+	});
+});
 
 // middleware to use for all requests
 apiRouter.use(function(req, res, next) {
@@ -55,11 +88,39 @@ apiRouter.use(function(req, res, next) {
 	next();
 });
 
+// middleware to use for verifying a token
+apiRouter.use(function(req, res, next) {
+	// check header or url parameters or post parameters for token
+	var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+	if (token) {
+		jwt.verify(token, superSecret, function(err, decoded) {
+			if (err) {
+				return res.status(403).send({ success: false,
+					message: 'Failed to authenticate token.'
+				});
+			} else {
+				// if everything is good, save to request for use in other routes
+				req.decoded = decoded;
+				next();
+			}
+		});
+	} else {
+		// if there is no token
+		// return an HTTP response of 403 (access forbidden) and error message
+		return res.status(403).send({ success: false, message: 'No token provided.' });
+	}
+});
+
 // test route to make sure everything is working
 // accessed at GET /
 apiRouter.get('/', function(req, res) {
 	res.json({message: 'hooray! welcome to our api'});
 });
+
+// api endpoint to get user information
+apiRouter.get('/me', function(req, res) {
+	res.send(req.decoded);
+})
 
 // on routes that end in /users
 // ----------------------------
@@ -112,8 +173,8 @@ apiRouter.route('/users/:user_id')
 
 			// update the users info only if its new
 			if (req.body.name) user.name = req.body.name;
-			if (req.body.username) user.name = req.body.username;
-			if (req.body.password) user.name = req.body.password;
+			if (req.body.username) user.username = req.body.username;
+			if (req.body.password) user.password = req.body.password;
 
 			// save the user
 			user.save(function(err) {
