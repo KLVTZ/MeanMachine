@@ -1,6 +1,6 @@
 angular.module('userApp', [
 		'ngAnimate',
-		'appRoutes',
+		'app.routes',
 		'authService',
 		'mainCtrl',
 		'userCtrl',
