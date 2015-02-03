@@ -1,6 +1,6 @@
 angular.module('userService', [])
 
-.factory('User'. function($http) {
+.factory('User', function($http) {
 	
 	// creare a new object
 	var userFactory = {}
