@@ -43,7 +43,7 @@ angular.module('authService', [])
 	}
 	
 	// return the auth factory object
-	return authFactroy;
+	return authFactory;
 })
 
 // =========================================

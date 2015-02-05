@@ -11,19 +11,28 @@ angular.module('mainCtrl', [])
 		vm.loggedIn = Auth.isLoggedIn();
 		// get user information after logging in
 		Auth.getUser()
-			.success(function(data) {
-				vm.user = data;
+			.then(function(data) {
+				vm.user = data.data;
 			});
 	});
 
 
 	vm.doLogin = function() {
-		Auth.login(vm.loginData.username, vm.loginData.password)
-			.success(function(data) {
-				
-				// if a user successfully logs in, redirect to users page
-				$location.path('/users');
-			});
+		vm.processing = true;
+		vm.error = '';
+
+		if (typeof vm.loginData === 'undefined')
+			vm.error = 'Please complete login.';
+		else
+			Auth.login(vm.loginData.username, vm.loginData.password)
+				.success(function(data) {
+					vm.processing = false;
+					// if a user successfully logs in, redirect to users page
+					if (data.success)
+						$location.path('/users');
+					else
+						vm.error = data.message;
+				});
 	};
 
 	vm.doLogout = function() {

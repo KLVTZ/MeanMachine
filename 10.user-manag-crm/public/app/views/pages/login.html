@@ -1,4 +1,4 @@
-<div class="row col-sm-6 col-sm-offset-3">
+<div class="row col-md-6 col-md-offset-3">
   <div class="jumbotron">
     <h1>Login</h1>
     <form ng-submit="login.doLogin()">
@@ -12,9 +12,15 @@
           <label>Password</label>
           <input type="password" class="form-control" ng-model="login.loginData.password">
         </div>
+
+        <!-- error message -->
+        <div class="alert alert-danger" ng-if="login.error">
+          {{ login.error }}
+        </div>
         <!-- login button -->
         <button type="submit" class="btn btn-block btn-primary">
-          <span>Login</span>
+          <span ng-if="!login.processing">Login</span>
+          <span ng-if="login.processing" class="spinner"><span class="glyphicon glyphicon-repeat"></span></span>
         </button>
     </form>
   </div>
