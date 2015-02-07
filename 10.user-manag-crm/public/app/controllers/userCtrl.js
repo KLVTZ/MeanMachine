@@ -36,6 +36,7 @@ angular.module('userCtrl', ['userService'])
 	};
 })
 
+// controller applied to user creation page
 .controller('userCreateController', function(User) {
 	var vm = this;
 
@@ -43,7 +44,7 @@ angular.module('userCtrl', ['userService'])
 	// differentiate between create or edit pages
 	vm.type = 'create';
 
-	vm.saveUser() = function() {
+	vm.saveUser = function() {
 		vm.processing = true;
 
 		// clear the messages
@@ -60,3 +61,36 @@ angular.module('userCtrl', ['userService'])
 			});
 	};
 })
+
+.controller('userEditController', function($routeParams, User) {
+	var vm = this;
+
+	// variable to hide/show elements of the view
+	// differentiate between create or edit pages
+	vm.type = 'edit';
+
+	// get the user data for the user you want to edit
+	// $routeParams is the way we grab data from the URL
+	User.get($routeParams.user_id)
+		.success(function(data) {
+			vm.userData = data;
+		});
+
+	// function to save the user
+	vm.saveUser = function() {
+		vm.processing = true;
+		vm.message = '';
+
+		// call the userService function to update
+		User.update($routeParams.user_id, vm.userData)
+			.success(function(data) {
+				vm.processing = false;
+
+				// clear the form
+				vm.userData = {};
+
+				// bind the message from our API to vm.message
+				vm.message = data.message;
+			});
+	};
+});
