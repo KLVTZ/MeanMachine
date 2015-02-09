@@ -48,7 +48,7 @@ angular.module('userCtrl', ['userService'])
 		vm.processing = true;
 
 		// clear the messages
-		vm.message = true;
+		vm.message = '';
 
 		// use the create function in the userService
 		User.create(vm.userData)
