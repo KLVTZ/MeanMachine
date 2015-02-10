@@ -37,6 +37,8 @@ angular.module('mainCtrl', [])
 
 	vm.doLogout = function() {
 		Auth.logout();
+		vm.user = '';
+
 		$location.path('/login');
 	};
 });

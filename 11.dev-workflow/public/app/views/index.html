@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Workflow!</title>
+
+  <!-- For Angular Routing  -->
+  <base href="/">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/style.min.css" />
+  
+  <!-- JS / LIBS -->
+  <script src="assets/libs/angular/angular.min.js"></script>
+  <script src="assets/libs/angular-route/angular-route.min.js"></script>
+  <script src="assets/libs/angular-animate/angular-animate.min.js"></script>
+
+  <!-- App -->
+  <script src="dist/all.js"></script>
+  <!-- <script src="app/controllers/mainCtrl.js"></script> -->
+  <!-- <script src="app/app.routes.js"></script> -->
+  <!-- <script src="app/app.js"></script> -->
+</head>
+<body class="container" ng-app="myApp" ng-controller="mainController as main" >
+  <div class="jumbotron text-center">
+    <h1>{{ main.message }}</h1>
+  </div>
+
+  <div ng-view></div>
+</body>
+</html>

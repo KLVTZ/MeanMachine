@@ -1,0 +1,28 @@
+{
+  "name": "11.dev-workflow",
+  "version": "0.0.0",
+  "homepage": "https://github.com/KLVTZ/MeanMachine",
+  "authors": [
+    "Justin Page <xjustinpagex@gmail.com>"
+  ],
+  "description": "development workflow",
+  "main": "server.js",
+  "keywords": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.2",
+    "angular": "~1.3.13",
+    "angular-route": "~1.3.13",
+    "angular-animate": "~1.3.13"
+  }
+}
